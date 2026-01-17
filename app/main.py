@@ -1,4 +1,9 @@
-"""Main application entry point"""
+from fastapi import FastAPI
 
-# TODO: 实现 FastAPI 应用主入口
+from app.api import api_router
+
+
+app = FastAPI(title="Trader Town Backend")
+
+app.include_router(api_router)
 
