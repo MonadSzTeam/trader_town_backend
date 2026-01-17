@@ -13,7 +13,7 @@
 - **依赖管理**: uv
 - **Web 框架**: FastAPI
 - **数据库**: SQLAlchemy
-- **AI 框架**: OpenAI
+- **AI 框架**: 智谱 GLM (ZhipuAI)
 
 ## 项目结构
 
@@ -30,7 +30,7 @@ trader_town_backend/
 │   │   ├── __init__.py
 │   │   └── routes/        # 路由定义
 │   │       └── __init__.py
-│   ├── agents/            # OpenAI Agent 功能模块
+│   ├── agents/            # 智谱 GLM Agent 功能模块
 │   │   └── __init__.py
 │   └── db/                # 数据库模块
 │       ├── __init__.py
@@ -74,13 +74,13 @@ uvicorn app.main:app --reload
 - `app/main.py`: FastAPI 应用主入口，定义 API 服务启动逻辑
 - `app/config.py`: 环境变量和配置管理（数据库连接、API 密钥等）
 - `app/api/routes/`: API 路由定义，提供 RESTful 接口给前端调用
-- `app/agents/`: OpenAI Agent 功能封装，实现 AI 代理能力
+- `app/agents/`: 智谱 GLM Agent 功能封装，实现 AI 代理能力
 - `app/db/`: 数据库连接和模型定义，使用 SQLAlchemy ORM
 
 ### 项目特点
 
 - ✅ 纯后端服务，仅提供 API 接口
 - ✅ 使用 FastAPI 构建高性能异步 API
-- ✅ 集成 OpenAI Agent 框架
+- ✅ 集成智谱 GLM Agent 框架
 - ✅ 完整的数据库操作支持（SQLAlchemy）
 - ✅ 使用 uv 进行依赖管理
