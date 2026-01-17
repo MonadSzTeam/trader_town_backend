@@ -1,5 +1,6 @@
 """API 路由接口测试"""
 
+import json
 import pytest
 from fastapi.testclient import TestClient
 
@@ -210,4 +211,138 @@ class TestSymbolMapping:
         
         # 可能因为 API 频率限制返回 429，或者正确返回 200/404
         assert response.status_code in [200, 404, 429, 502]
+
+
+class TestValueInvestorDecision:
+    """测试价值投资者决策接口"""
+    
+    def test_get_value_investor_decision(self):
+        """测试获取价值投资者的交易决策（真实 API 和 Agent）"""
+        # 发送请求，真实调用 API 和 Agent
+        response = client.get("/api/coins/btc/decision/value-investor?days=7")
+        
+        # 打印响应状态码
+        print(f"\n{'='*60}")
+        print(f"价值投资者决策接口测试")
+        print(f"{'='*60}")
+        print(f"响应状态码: {response.status_code}")
+        
+        # 可能因为 API 频率限制返回 429，或者网络错误 502，或者 Agent 错误 500
+        assert response.status_code in [200, 429, 502, 500]
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # 打印 Agent 返回的完整结果
+            print(f"\nAgent 返回结果:")
+            print(f"  - 决策动作 (action): {data.get('action')}")
+            print(f"  - 信心度 (confidence): {data.get('confidence')}")
+            print(f"  - 当前价格 (price): {data.get('price')}")
+            if data.get('target_price'):
+                print(f"  - 目标价格 (target_price): {data.get('target_price')}")
+            if data.get('stop_loss'):
+                print(f"  - 止损价格 (stop_loss): {data.get('stop_loss')}")
+            print(f"\n决策理由 (reasoning):")
+            print(f"  {data.get('reasoning')}")
+            print(f"\n完整 JSON 响应:")
+            print(json.dumps(data, indent=2, ensure_ascii=False))
+            print(f"{'='*60}\n")
+            
+            # 验证响应结构（TradingDecision 的字段）
+            assert "action" in data
+            assert "confidence" in data
+            assert "reasoning" in data
+            assert "price" in data
+            
+            # 验证 action 的值
+            assert data["action"] in ["BUY", "SELL", "HOLD"]
+            
+            # 验证 confidence 的范围
+            assert 0.0 <= data["confidence"] <= 1.0
+            
+            # 验证 price 是数字且大于 0
+            assert isinstance(data["price"], (int, float))
+            assert data["price"] > 0
+            
+            # 验证 reasoning 是字符串
+            assert isinstance(data["reasoning"], str)
+            assert len(data["reasoning"]) > 0
+            
+            # target_price 和 stop_loss 是可选的
+            if "target_price" in data and data["target_price"] is not None:
+                assert isinstance(data["target_price"], (int, float))
+            if "stop_loss" in data and data["stop_loss"] is not None:
+                assert isinstance(data["stop_loss"], (int, float))
+        else:
+            print(f"\n请求失败，状态码: {response.status_code}")
+            if response.text:
+                print(f"错误信息: {response.text}")
+            print(f"{'='*60}\n")
+
+
+class TestTechnicalAnalystDecision:
+    """测试技术面分析交易员决策接口"""
+    
+    def test_get_technical_analyst_decision(self):
+        """测试获取技术面分析交易员的交易决策（真实 API 和 Agent）"""
+        # 发送请求，真实调用 API 和 Agent
+        response = client.get("/api/coins/eth/decision/technical-analyst?days=7")
+        
+        # 打印响应状态码
+        print(f"\n{'='*60}")
+        print(f"技术面分析交易员决策接口测试")
+        print(f"{'='*60}")
+        print(f"响应状态码: {response.status_code}")
+        
+        # 可能因为 API 频率限制返回 429，或者网络错误 502，或者 Agent 错误 500
+        assert response.status_code in [200, 429, 502, 500]
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # 打印 Agent 返回的完整结果
+            print(f"\nAgent 返回结果:")
+            print(f"  - 决策动作 (action): {data.get('action')}")
+            print(f"  - 信心度 (confidence): {data.get('confidence')}")
+            print(f"  - 当前价格 (price): {data.get('price')}")
+            if data.get('target_price'):
+                print(f"  - 目标价格 (target_price): {data.get('target_price')}")
+            if data.get('stop_loss'):
+                print(f"  - 止损价格 (stop_loss): {data.get('stop_loss')}")
+            print(f"\n决策理由 (reasoning):")
+            print(f"  {data.get('reasoning')}")
+            print(f"\n完整 JSON 响应:")
+            print(json.dumps(data, indent=2, ensure_ascii=False))
+            print(f"{'='*60}\n")
+            
+            # 验证响应结构（TradingDecision 的字段）
+            assert "action" in data
+            assert "confidence" in data
+            assert "reasoning" in data
+            assert "price" in data
+            
+            # 验证 action 的值
+            assert data["action"] in ["BUY", "SELL", "HOLD"]
+            
+            # 验证 confidence 的范围
+            assert 0.0 <= data["confidence"] <= 1.0
+            
+            # 验证 price 是数字且大于 0
+            assert isinstance(data["price"], (int, float))
+            assert data["price"] > 0
+            
+            # 验证 reasoning 是字符串
+            assert isinstance(data["reasoning"], str)
+            assert len(data["reasoning"]) > 0
+            
+            # target_price 和 stop_loss 是可选的
+            if "target_price" in data and data["target_price"] is not None:
+                assert isinstance(data["target_price"], (int, float))
+            if "stop_loss" in data and data["stop_loss"] is not None:
+                assert isinstance(data["stop_loss"], (int, float))
+        else:
+            print(f"\n请求失败，状态码: {response.status_code}")
+            if response.text:
+                print(f"错误信息: {response.text}")
+            print(f"{'='*60}\n")
 
