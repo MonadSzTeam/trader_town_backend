@@ -94,9 +94,20 @@ class CoinGeckoService:
                 ) from exc
         
         if response.status_code != 200:
+            error_detail = f"CoinGecko API error: {response.status_code}"
+            if response.status_code == 429:
+                error_detail = "CoinGecko API rate limit exceeded. Please try again later."
+            elif response.status_code == 502:
+                error_detail = "CoinGecko API service unavailable. Please check your network connection."
+            try:
+                error_body = response.json()
+                if isinstance(error_body, dict) and 'error' in error_body:
+                    error_detail = f"CoinGecko API error: {error_body.get('error', error_detail)}"
+            except:
+                pass
             raise HTTPException(
                 status_code=response.status_code, 
-                detail="CoinGecko API error"
+                detail=error_detail
             )
         
         data = response.json()
@@ -151,9 +162,20 @@ class CoinGeckoService:
                 ) from exc
         
         if response.status_code != 200:
+            error_detail = f"CoinGecko API error: {response.status_code}"
+            if response.status_code == 429:
+                error_detail = "CoinGecko API rate limit exceeded. Please try again later."
+            elif response.status_code == 502:
+                error_detail = "CoinGecko API service unavailable. Please check your network connection."
+            try:
+                error_body = response.json()
+                if isinstance(error_body, dict) and 'error' in error_body:
+                    error_detail = f"CoinGecko API error: {error_body.get('error', error_detail)}"
+            except:
+                pass
             raise HTTPException(
                 status_code=response.status_code,
-                detail={"message": "CoinGecko API error", "body": response.text},
+                detail=error_detail,
             )
         
         return response.json()

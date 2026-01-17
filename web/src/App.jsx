@@ -13,6 +13,7 @@ const App = () => {
   const [speed, setSpeed] = useState(1);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedSymbol, setSelectedSymbol] = useState('btc'); // 默认币种
   const [allAgents, setAllAgents] = useState([
     { 
       id: 1, 
@@ -99,6 +100,7 @@ const App = () => {
             isRunning={isRunning}
             agents={allAgents}
             setAgents={setAllAgents}
+            symbol={selectedSymbol}
           />
         </div>
         
@@ -106,7 +108,7 @@ const App = () => {
         <div className="w-96 bg-bg-dark border-l-2 border-tech-blue flex flex-col">
           {/* K线图 */}
           <div className="h-80 border-b-2 border-tech-blue">
-            <KLineChart isRunning={isRunning} />
+            <KLineChart isRunning={isRunning} symbol={selectedSymbol} />
           </div>
           
           {/* 盈利面板 */}

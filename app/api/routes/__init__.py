@@ -166,10 +166,22 @@ async def get_value_investor_decision(
         )
         
         # 调用价值投资 Agent
-        agent = ValueInvestorAgent()
-        decision = await agent.analyze_async(trading_input)
-        
-        return decision
+        try:
+            agent = ValueInvestorAgent()
+            decision = await agent.analyze_async(trading_input)
+            return decision
+        except ValueError as ve:
+            # API key未设置等配置错误
+            raise HTTPException(
+                status_code=500,
+                detail=f"Agent配置错误: {str(ve)}"
+            ) from ve
+        except Exception as agent_error:
+            # Agent调用失败
+            raise HTTPException(
+                status_code=500,
+                detail=f"Agent分析失败: {str(agent_error)}"
+            ) from agent_error
         
     except HTTPException:
         raise
@@ -225,10 +237,22 @@ async def get_technical_analyst_decision(
         )
         
         # 调用技术面分析 Agent
-        agent = TechnicalAnalystAgent()
-        decision = await agent.analyze_async(trading_input)
-        
-        return decision
+        try:
+            agent = TechnicalAnalystAgent()
+            decision = await agent.analyze_async(trading_input)
+            return decision
+        except ValueError as ve:
+            # API key未设置等配置错误
+            raise HTTPException(
+                status_code=500,
+                detail=f"Agent配置错误: {str(ve)}"
+            ) from ve
+        except Exception as agent_error:
+            # Agent调用失败
+            raise HTTPException(
+                status_code=500,
+                detail=f"Agent分析失败: {str(agent_error)}"
+            ) from agent_error
         
     except HTTPException:
         raise

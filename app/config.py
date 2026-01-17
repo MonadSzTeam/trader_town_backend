@@ -13,9 +13,9 @@ class Settings(BaseSettings):
     openai_api_key: Optional[str] = None
     
     # CoinGecko API 配置
-    coingecko_api_key: Optional[str] = None
+    coingecko_api_key: Optional[str] = "CG-YcSMfQfKi7WFwRkAXxah6x9N"
     # 兼容旧配置名（大写）
-    COINGECKO_API_KEY: Optional[str] = None
+    COINGECKO_API_KEY: Optional[str] = "CG-YcSMfQfKi7WFwRkAXxah6x9N"
     
     # 应用配置
     app_name: str = "Trader Town Backend"
