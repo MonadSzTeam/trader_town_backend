@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "buildCommand": "cd web && npm install && npm run build",
+  "outputDirectory": "web/dist",
+  "installCommand": "cd web && npm install",
+  "functions": {
+    "api/index.py": {
+      "runtime": "python3.10"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/web/$1"
+    }
+  ]
+}
+

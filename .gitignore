@@ -5,7 +5,10 @@ __pycache__/
 *.so
 .Python
 .trae
+.ftp
+.cursor
 build/
+web/node_modules/
 develop-eggs/
 dist/
 downloads/
@@ -53,3 +56,4 @@ Thumbs.db
 
 # UV
 .uv/
+.ftp
