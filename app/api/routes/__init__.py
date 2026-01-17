@@ -53,8 +53,9 @@ async def get_coin_overview(
                 "include_24hr_change": "true",
                 "include_last_updated_at": "true",
             }
-            if settings.COINGECKO_API_KEY:
-                price_params["x_cg_demo_api_key"] = settings.COINGECKO_API_KEY
+            api_key = settings.coingecko_api_key or settings.COINGECKO_API_KEY
+            if api_key:
+                price_params["x_cg_demo_api_key"] = api_key
 
             price_req = client.get(
                 "/simple/price",
@@ -64,8 +65,9 @@ async def get_coin_overview(
             # 2. 获取 24 小时 OHLC 数据 (days=1)
             # API: /coins/{id}/ohlc?vs_currency={currency}&days=1
             ohlc_params = {"vs_currency": vs_currency, "days": 1}
-            if settings.COINGECKO_API_KEY:
-                ohlc_params["x_cg_demo_api_key"] = settings.COINGECKO_API_KEY
+            api_key = settings.coingecko_api_key or settings.COINGECKO_API_KEY
+            if api_key:
+                ohlc_params["x_cg_demo_api_key"] = api_key
 
             ohlc_req = client.get(
                 f"/coins/{coin_id}/ohlc",
@@ -123,8 +125,9 @@ async def get_coin_price(
                 "vs_currencies": vs_currency,
                 "include_24hr_change": "true"
             }
-            if settings.COINGECKO_API_KEY:
-                params["x_cg_demo_api_key"] = settings.COINGECKO_API_KEY
+            api_key = settings.coingecko_api_key or settings.COINGECKO_API_KEY
+            if api_key:
+                params["x_cg_demo_api_key"] = api_key
 
             response = await client.get(
                 "/simple/price",
@@ -157,8 +160,9 @@ async def get_coin_ohlc(
     resolved_id = _resolve_coin_id(coin_id)
     url = f"/coins/{resolved_id}/ohlc"
     params = {"vs_currency": vs_currency, "days": days}
-    if settings.COINGECKO_API_KEY:
-        params["x_cg_demo_api_key"] = settings.COINGECKO_API_KEY
+    api_key = settings.coingecko_api_key or settings.COINGECKO_API_KEY
+    if api_key:
+        params["x_cg_demo_api_key"] = api_key
 
     async with httpx.AsyncClient(base_url="https://api.coingecko.com/api/v3", timeout=10.0) as client:
         try:
