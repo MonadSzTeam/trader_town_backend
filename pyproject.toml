@@ -7,11 +7,16 @@ requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.104.0",
     "uvicorn[standard]>=0.24.0",
-    "openai>=1.0.0",
+    "zhipuai>=2.0.0",
     "sqlalchemy>=2.0.0",
     "pydantic>=2.0.0",
     "pydantic-settings>=2.0.0",
+<<<<<<< HEAD
     "httpx>=0.27.0",
+=======
+    "sniffio>=1.3.1",
+    "anyio>=4.12.1",
+>>>>>>> c99160f76ba5e32c73b4f75a44bea0ac281e9a90
 ]
 
 [build-system]
